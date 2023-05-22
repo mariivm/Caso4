@@ -14,3 +14,7 @@ join dbo.ordenProduccion o on r.productoId = o.productoId
 join dbo.ventasProductos v on v.productoId = o.productoId
 
 
+--Pruebas 
+--Colocar Tabla y columna
+alter table ordenProduccion
+drop column lote;
