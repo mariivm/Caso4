@@ -4,8 +4,12 @@
 -- SP CON PROBLEMAS
 
 --============================================
---procedure ventaProducto
---PROBLEMAS: PHANTOM READ - LOST UPDATE
+--PROBLEMA: PHANTOM READ 
+--Este problema se aprecia ya que la transacción accede a la tabla inventarioProductos al inicio
+--de sus procesos,regresando los datos que se encontraban en ese momento, mientras tanto
+--otra transacción añadio nueva información a esas tablas por lo que al volver a acceder a esa tabla
+--la transacción retorna información que no estaba antes cuando iniciada.
+--Debido a que la segunda transacción no tiene delay.
 
 DROP PROCEDURE IF EXISTS ventaProducto
 GO 
@@ -27,27 +31,33 @@ BEGIN
 	BEGIN TRANSACTION;
 
     -- Realizar una modificación en los datos
-	SELECT * FROM inventarioProductos;
+	SELECT * FROM inventarioProductos; --Se accede a la tabla inventarioProductos
 
 	SELECT @loteId=lote FROM inventarioProductos where productoId=@productId;
 
+	--falla en caso de que la cantidad sea menor a la de existencias
 	IF (SELECT cantidad FROM inventarioProductos where lote=@loteId) < @cantidad BEGIN
 		ROLLBACK;
 		RETURN;
 	END;
 
+	--calcula la nueva cantidad
 	SET @newCantidad =(SELECT cantidad FROM inventarioProductos where lote=@loteId)-@cantidad;
 
 	SELECT @precio=precio FROM precioXproducto where productoId=@productId;
 
+	--Genera una venta con el producto electo
 	INSERT INTO ventasProductos (ventaId,clienteId,empresaId,productoId,fechaVenta,cantidadVenta,lote) VALUES
 	(@contador,@cliente,@empresa,@productId,GETDATE(),@cantidad,@loteId);
 
+	--Genera un delay para simular una transaccion
 	WAITFOR DELAY '00:00:10';
 
+	--Actualiza los datos en la tabla de inventarios
 	UPDATE inventarioProductos SET cantidad = @newCantidad  WHERE lote=@loteId;
 
-	SELECT * FROM inventarioProductos;
+	SELECT * FROM inventarioProductos; --Se accede a la tabla inventarioProductos despues de finalizar
+										--los procesos
 
     -- Hacer commit de la transacción
 	COMMIT;
@@ -57,6 +67,7 @@ GO
 --procedure ventaProducto
 --SOLUCION PARA PHANTOM READ
 
+--Se habilita en la base de datos la opción de isolation snapshot
 ALTER DATABASE [elementalGDB] SET ALLOW_SNAPSHOT_ISOLATION ON;
 
 DROP PROCEDURE IF EXISTS ventaProducto

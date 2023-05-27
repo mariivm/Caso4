@@ -3,6 +3,10 @@
 -- HYTAN JARA MATAMOROS
 -- SP CON PROBLEMAS
 
+--=============================================================================
+--PROBLEMA: DIRTY READ
+
+
 Drop procedure if exists lecturaRecipientes
 go
 CREATE PROCEDURE lecturaRecipientes
@@ -23,7 +27,8 @@ go
 exec lecturaRecipientes @recipId=10
 go
 
---SOLUCION
+--=============================================================================
+--SOLUCION: DIRTY READ
 --En este caso la solución es sencillamente cambiar el ISOLATION LEVEL a commited
 --de esta forma las columnas que se estan modificando en el stored procedure se bloquearan
 --evitando de esta forma acceso a los datos en caso de que ocurra un error

@@ -1,6 +1,10 @@
+--Preliminar #1 Caso #4
+-- MARIANA VIQUEZ MONGE
+-- HYTAN JARA MATAMOROS
+-- SP CON PROBLEMAS
+
 --============================================
---procedure ventaProducto
---PROBLEMAS: LOST UPDATE
+--PROBLEMA: LOST UPDATE
 
 DROP PROCEDURE IF EXISTS ventaProducto_2
 GO 
@@ -51,9 +55,11 @@ BEGIN
 END;
 GO
 
---============================================
---procedure ventaProducto
---SOLUCION PARA LOST UPDATE
+--=============================================================================
+--SOLUCION:  Lost Update
+--En este caso la solución es sencillamente cambiar el ISOLATION LEVEL a REPEATABLE READ
+--esto garantiza que los datos obtenidos por una transacción no cambiaran durante la ejecución, habilitando la modificación
+--hasta que esta termine, permitiendo que la siguiente transacción obtenga los datos actualizados.
 
 DROP PROCEDURE IF EXISTS ventaProducto_2
 GO 
