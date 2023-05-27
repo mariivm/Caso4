@@ -1,22 +1,4 @@
---drop procedure if exists fillEventLog
-create procedure fillEventLog 
-as begin
-	DECLARE @contador int;
-	DECLARE @contador2 int;
-
-	SELECT @contador = MAX(EventLogId) FROM EventLog;
-	set @contador = @contador +1;
-	set @contador2 = @contador +20;
-
-	WHILE (@contador <= @contador2)
-	BEGIN		
-		insert into EventLog(EventLogId, posttime, computer, username, checksum, descripcion, value1, value2, referenceId1, referenceId2, levelId, sourceId, eventTypeId, objectTypeId)
-		values (@contador,'2023-4-20' , 'Laptop', SUSER_SNAME(), 100, 'registro de bitacora/pruebas', 0, 0, 0, 0, 1, 1, 1,1 );
-
-	SET @contador = @contador + 1;
-	end
-
-end; 
+ 
 exec fillEventLog;
 --delete from EventLog;
 SELECT * FROM EventLog;
