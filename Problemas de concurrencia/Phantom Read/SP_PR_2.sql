@@ -14,7 +14,7 @@ CREATE PROCEDURE tratamientoDesechos
 	@actor int
 AS
 BEGIN
-	SET TRANSACTION ISOLATION LEVEL UNCOMMITTED;
+	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 	DECLARE @pesoRecep DECIMAL;
 	DECLARE @contador INT;
 	DECLARE @loteId INT;
@@ -45,6 +45,8 @@ BEGIN
 	COMMIT;
 END
 go
+
+exec tratamientoDesechos @localid=1, @recepienteId = 1, @tipoRecepcion = 2, @empresa =1, @producto = 1, @actor = 1
 
 
 --============================================

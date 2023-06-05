@@ -63,6 +63,8 @@ BEGIN
 	COMMIT;
 END;
 GO
+exec ventaProducto @cliente =1, @empresa =1, @productid=1, @cantidad= 1;
+
 
 --=============================================================================
 --SOLUCION:  Lost Update

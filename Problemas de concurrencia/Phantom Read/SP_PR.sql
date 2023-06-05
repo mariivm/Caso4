@@ -63,6 +63,10 @@ BEGIN
 	COMMIT;
 END;
 GO
+
+exec ventaProducto @cliente = 1, @empresa = 1, @productid = 1, @cantidad =2
+
+
 --============================================
 --procedure ventaProducto
 --SOLUCION PARA PHANTOM READ
@@ -116,3 +120,5 @@ BEGIN
 	COMMIT;
 END;
 GO
+
+select * from inventarioProductos

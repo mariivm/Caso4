@@ -24,7 +24,7 @@ BEGIN
 		--Se modifican los datos de los lotes dentro del inventario de productos
 
 		UPDATE inventarioProductos SET cantidad = @cantidad WHERE lote = @lote;
-		UPDATE inventarioProductos SET costo = @cantidad WHERE lote = @lote;
+		UPDATE inventarioProductos SET costo = @costo WHERE lote = @lote;
 
 		-- Esperar por un tiempo para simular una pausa en la transacción
 		WAITFOR DELAY '00:00:05';
@@ -64,7 +64,7 @@ BEGIN
 		--Se modifican los datos de los lotes dentro del inventario de productos
 
 		UPDATE inventarioProductos SET cantidad = @cantidad WHERE lote = @lote;
-		UPDATE inventarioProductos SET costo = @cantidad WHERE lote = @lote;
+		UPDATE inventarioProductos SET costo = @costo WHERE lote = @lote;
 
 		-- Esperar por un tiempo para simular una pausa en la transacción
 		WAITFOR DELAY '00:00:05';

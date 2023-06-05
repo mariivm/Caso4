@@ -25,6 +25,13 @@ BEGIN
 		rollback;
 		return;
 	end;
+	UPDATE recipientes SET recipPeso = @recPeso WHERE recipienteId=@recipId;
+    
+    --Se realiza el update en caso de que todo resulte correcto
+	UPDATE recipientes SET estado = @estado WHERE recipienteId=@recipId;
+
+    -- Esperar un poco para simular una transacción pendiente
+    WAITFOR DELAY '00:00:08';
 
 	--Falla en caso de que el peso sea mayor a la capacidad del recipiente
 	IF @recPeso>= (SELECT recipCapacidad FROM recipientes WHERE recipienteId=@recipId) begin
@@ -32,27 +39,21 @@ BEGIN
 		return;
 	end;
 
-    UPDATE recipientes SET recipPeso = @recPeso WHERE recipienteId=@recipId;
-    
-    -- Esperar un poco para simular una transacción pendiente
-    WAITFOR DELAY '00:00:08';
-
 	--Falla en caso de ingresa un estado inválido, que no sean 1,2 o 3
 	IF @estado>3 or @estado<0 begin
 		rollback;
 		return;
 	end;
 
-	--Se realiza el update en caso de que todo resulte correcto
-	UPDATE recipientes SET estado = @estado WHERE recipienteId=@recipId;
-
+	
     -- Hacer commit de la transacción
 	COMMIT;
 END
 go
 
-exec actualizarRecipientes @recipId = 10, @estado=4,@recPeso=213
+exec actualizarRecipientes @recipId = 10, @estado=4,@recPeso=260
 go
+
 
  SELECT * FROM recipientes WHERE recipienteId=10;
 

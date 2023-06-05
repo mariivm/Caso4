@@ -27,6 +27,7 @@ go
 exec lecturaRecipientes @recipId=10
 go
 
+
 --=============================================================================
 --SOLUCION: DIRTY READ
 --En este caso la solución es sencillamente cambiar el ISOLATION LEVEL a commited

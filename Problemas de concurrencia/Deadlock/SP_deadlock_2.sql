@@ -33,7 +33,7 @@ BEGIN
 		WAITFOR DELAY '00:00:05';
 		--Se modifican los datos de los lotes dentro del inventario de productos
 		UPDATE inventarioProductos SET cantidad = @cantidad WHERE lote = @lote;
-		UPDATE inventarioProductos SET costo = @cantidad WHERE lote = @lote;
+		UPDATE inventarioProductos SET costo = @costo WHERE lote = @lote;
 		
 	END;
 
@@ -71,7 +71,7 @@ BEGIN
 		--Se modifican los datos de los lotes dentro del inventario de productos
 		
 		UPDATE inventarioProductos SET cantidad = @cantidad WHERE lote = @lote;
-		UPDATE inventarioProductos SET costo = @cantidad WHERE lote = @lote;
+		UPDATE inventarioProductos SET costo = @costo WHERE lote = @lote;
 		
 		END;
 		COMMIT TRANSACTION;
@@ -90,3 +90,4 @@ BEGIN
 End
 
 exec modificarLote_2 @lote=7,@cantidad=5,@costo=4000;
+
