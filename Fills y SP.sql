@@ -58,14 +58,14 @@ ALTER PROCEDURE [dbo].[llenarRecepcionDesechos]
   declare @pesoRecibido decimal(8,2);
   declare @empresaid int;
   declare @checksum varbinary(150);
-
+  set @fecha = '2023-01-01'
 
   WHILE (@contador <= 1000)
   BEGIN
 	
 	    set @localid = FLOOR(RAND()*(100-1+1)+1);
 		set @recipienteid = FLOOR(RAND()*(10000-1+1)+1);
-		set @fecha = GETDATE();
+		SET @fecha = DATEADD(DAY, 1, @fecha); 
 		set @tipoRecepcion = FLOOR(RAND()*(2-1+1)+1);
 		set @recepcionId = @contador;
 		set @productoId = FLOOR(RAND()*(15-1+1)+1);
