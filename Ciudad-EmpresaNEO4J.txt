@@ -1,0 +1,4 @@
+LOAD CSV WITH HEADERS from 'file:///Ciudad-Empresa.csv' as row with row where row.Recolectora is not null
+MERGE (n:Ciudad {Ciudad: row.Ciudad})
+MERGE (m:Recolector{Recolectora:row.Recolectora})
+MERGE(n)-[:Volumen{Volumen:row.Volumen}]->(m)
